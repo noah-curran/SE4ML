@@ -561,13 +561,24 @@ end of :code:`table`. Furthermore, on line :code:`9`, the indices of the 2D-arra
 :code:`table` are accessed in the wrong order. It should instead be written as
 :code:`table[i][j]`.
 
-After informing the code writer of the defects, they will submit corrected code that
-outputs:
+After informing the code writer of the defects, they should submit corrected code
+that outputs:
 ::
 
       1  2  3
       4  5  6
       7  8  9
+
+Furthermore, in programming languages that use a conditional operator in for-loops
+it is possible to use the wrong conditional, which can cause the prior "off-by-one"
+defect or an unintentional "infinite loop". In Python, a for-loop takes a sequence
+as its input, so it will halt once it reaches the end of the sequence. In other words,
+unless you use a clever manipulation of a sequence, you will not obtain a truly infinite
+for-loop. However, while-loops are still prone to this defect, so be sure to check
+the logic of while-loop conditionals.
+
+It is also important to ensure variables are properly declared before they are used
+in calculations.
 
 Best Practice
 ~~~~~~~~~~~~~
