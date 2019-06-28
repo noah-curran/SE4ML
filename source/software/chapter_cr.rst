@@ -513,6 +513,62 @@ prevent these scenarios from occurring.
 Code Logic
 ~~~~~~~~~~
 
+In an ideal world, a code writer will send fully functioning code in a pull
+request. Realistically, however, a few functionality defects do exist. This
+is where expert knowledge on the functionality of the code is required. In
+this section, we will discuss the various number of logical defects that can
+occur and their consequences if gone unnoticed.
+
+Loops are a common area where logical mistakes occur due to their iterative
+nature. Depending on how many loops are nested, the correct variables can be
+accessed by the iterating indices. Furthermore, out of bounds memory accesses
+can also occur. Below is an example of both of these defects.
+
+.. code-block:: python
+   :linenos:
+
+   #!/usr/bin/python3
+   # baditeration.py
+
+   def printtable(table):
+      """Print a 2D array in row-major order.
+      
+      :param table: The 2D array to be printed.
+      :type table: int[]
+      """
+
+      for i in range(0, len(table) - 1):
+         for j in range(0, len(table[i]) - 1):
+               print(table[j][i], '\t', end='')
+         print('')
+
+   if __name__ == "__main__":
+
+      table = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+      printtable(table)
+
+The output of this program will appear as:
+::
+
+      1  4
+      2  5
+
+The first issue you may notice is that the range defined on lines :code:`7` and
+:code:`8` of the loops cover one less than the array length. In other programming
+languages, this might be the correct way of writing this code (depending on the
+conditional operator), but in this instance, the loops iterate one short of the
+end of :code:`table`. Furthermore, on line :code:`9`, the indices of the 2D-array
+:code:`table` are accessed in the wrong order. It should instead be written as
+:code:`table[i][j]`.
+
+After informing the code writer of the defects, they will submit corrected code that
+outputs:
+::
+
+      1  2  3
+      4  5  6
+      7  8  9
+
 Best Practice
 ~~~~~~~~~~~~~
 
